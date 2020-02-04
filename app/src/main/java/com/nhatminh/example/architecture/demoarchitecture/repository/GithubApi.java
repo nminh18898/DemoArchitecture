@@ -1,4 +1,4 @@
-package com.nhatminh.example.architecture.demoarchitecture.network;
+package com.nhatminh.example.architecture.demoarchitecture.repository;
 
 import com.nhatminh.example.architecture.demoarchitecture.model.SearchResponse;
 

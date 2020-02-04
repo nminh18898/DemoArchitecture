@@ -1,4 +1,4 @@
-package com.nhatminh.example.architecture.demoarchitecture.network;
+package com.nhatminh.example.architecture.demoarchitecture.repository;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

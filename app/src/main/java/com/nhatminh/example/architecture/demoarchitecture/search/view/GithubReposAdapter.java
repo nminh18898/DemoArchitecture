@@ -1,4 +1,4 @@
-package com.nhatminh.example.architecture.demoarchitecture;
+package com.nhatminh.example.architecture.demoarchitecture.search.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nhatminh.example.architecture.demoarchitecture.R;
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 
 import java.util.ArrayList;
