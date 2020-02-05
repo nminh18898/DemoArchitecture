@@ -58,6 +58,19 @@ public class MainActivity extends AppCompatActivity implements  LifecycleOwner {
         adapter = new GithubReposAdapter();
         binding.rvRepos.setLayoutManager(new LinearLayoutManager(this));
         binding.rvRepos.setAdapter(adapter);
+        
+        binding.rvRepos.addOnItemTouchListener(new GithubReposAdapterListener(this, binding.rvRepos, new GithubReposAdapterListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(MainActivity.this, "Clicked: " + position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Toast.makeText(MainActivity.this, "Long clicked: " + position, Toast.LENGTH_SHORT).show();
+            }
+
+        }));
     }
 
 
