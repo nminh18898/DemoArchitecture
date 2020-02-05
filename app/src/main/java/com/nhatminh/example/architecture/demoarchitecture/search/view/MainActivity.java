@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ import com.nhatminh.example.architecture.demoarchitecture.repository.DataReposit
 import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApi;
 import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitClient;
 import com.nhatminh.example.architecture.demoarchitecture.search.viewmodel.SearchViewModel;
+import com.nhatminh.example.architecture.demoarchitecture.search.viewmodel.SearchViewModelFactory;
 
 import java.util.List;
 
@@ -84,8 +86,7 @@ public class MainActivity extends AppCompatActivity implements  LifecycleOwner {
         GithubApi githubApi = RetrofitClient.getClient().create(GithubApi.class);
         DataRepository dataRepository = new DataRepository(githubApi);
 
-        viewModel = new SearchViewModel(dataRepository);
-
+        viewModel = ViewModelProviders.of(this, new SearchViewModelFactory(dataRepository)).get(SearchViewModel.class);
     }
 
     private void observeViewModel(){

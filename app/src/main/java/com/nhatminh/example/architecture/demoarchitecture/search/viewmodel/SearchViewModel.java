@@ -8,7 +8,7 @@ import com.nhatminh.example.architecture.demoarchitecture.repository.DataReposit
 
 import java.util.List;
 
-public class SearchViewModel {
+public class SearchViewModel extends ViewModel {
 
     private DataRepository repository;
 
