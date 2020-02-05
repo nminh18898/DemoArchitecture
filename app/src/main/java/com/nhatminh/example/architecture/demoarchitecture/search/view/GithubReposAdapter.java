@@ -6,9 +6,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhatminh.example.architecture.demoarchitecture.R;
+import com.nhatminh.example.architecture.demoarchitecture.databinding.RvItemReposBinding;
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 
 import java.util.ArrayList;
@@ -30,14 +32,17 @@ public class GithubReposAdapter extends RecyclerView.Adapter<GithubReposAdapter.
     @NonNull
     @Override
     public ReposViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ReposViewHolder(inflater.inflate(R.layout.rv_item_repos, parent, false));
+        RvItemReposBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.rv_item_repos, parent, false);
+        return new ReposViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ReposViewHolder holder, int position) {
         holder.bind(reposList.get(position));
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -51,19 +56,17 @@ public class GithubReposAdapter extends RecyclerView.Adapter<GithubReposAdapter.
 
     static class ReposViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvName, tvStars, tvDescription;
+        RvItemReposBinding binding;
 
-        public ReposViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvName = itemView.findViewById(R.id.tv_repo_name);
-            tvStars = itemView.findViewById(R.id.tv_repo_star);
-            tvDescription = itemView.findViewById(R.id.tv_repo_description);
+        public ReposViewHolder(RvItemReposBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+
         }
 
         public void bind(GithubRepos repos){
-            tvName.setText(repos.getFullName());
-            tvStars.setText("Stars: " + repos.getStargazersCount().toString());
-            tvDescription.setText(repos.getDescription());
+            binding.setGithubRepos(repos);
+            binding.executePendingBindings();
         }
     }
 }
