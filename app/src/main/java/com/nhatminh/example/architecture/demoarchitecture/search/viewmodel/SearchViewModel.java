@@ -15,7 +15,7 @@ public class SearchViewModel {
     private MutableLiveData<List<GithubRepos>> reposListLiveData;
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
-    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private MutableLiveData<DataRepository.Error> errorMessage = new MutableLiveData<>();
 
     public SearchViewModel(DataRepository repository) {
         this.repository = repository;
@@ -24,6 +24,10 @@ public class SearchViewModel {
 
     public MutableLiveData<List<GithubRepos>> getReposListLiveData() {
         return reposListLiveData;
+    }
+
+    public MutableLiveData<DataRepository.Error> getErrorMessage() {
+        return errorMessage;
     }
 
     public MutableLiveData<Boolean> isLoading() {
@@ -42,20 +46,8 @@ public class SearchViewModel {
 
             @Override
             public void onError(DataRepository.Error error) {
-                switch (error.getCode()){
-                    case INVALID_QUERY:
-                        errorMessage.setValue();
-                        break;
-
-                    case NETWORK_ERROR:
-
-                        break;
-
-                    case RESPONSE_FAILED:
-
-                        break;
-                }
-
+                errorMessage.setValue(error);
+                isLoading.setValue(false);
             }
         });
     }

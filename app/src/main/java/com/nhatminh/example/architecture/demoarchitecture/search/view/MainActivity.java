@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.nhatminh.example.architecture.demoarchitecture.R;
 import com.nhatminh.example.architecture.demoarchitecture.databinding.ActivityMainBinding;
@@ -35,8 +36,6 @@ public class MainActivity extends AppCompatActivity implements  LifecycleOwner {
 
     GithubReposAdapter adapter;
 
-    RecyclerView rvRepos;
-
     ActivityMainBinding binding;
 
     @Override
@@ -49,22 +48,18 @@ public class MainActivity extends AppCompatActivity implements  LifecycleOwner {
 
 
     private void init(){
-        setupViews();
-        setupComponents();
-        setupBindingData();
-    }
-
-    private void setupComponents(){
         initViewModel();
+        setupRecyclerViewAndAdapter();
+        setupBindingData();
+        observeViewModel();
+    }
 
+    private void setupRecyclerViewAndAdapter(){
         adapter = new GithubReposAdapter();
-        rvRepos.setLayoutManager(new LinearLayoutManager(this));
-        rvRepos.setAdapter(adapter);
+        binding.rvRepos.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvRepos.setAdapter(adapter);
     }
 
-    private void setupViews(){
-        rvRepos = findViewById(R.id.rvRepos);
-    }
 
     private void setupBindingData(){
         binding.setSearchViewModel(viewModel);
@@ -76,15 +71,50 @@ public class MainActivity extends AppCompatActivity implements  LifecycleOwner {
         GithubApi githubApi = RetrofitClient.getClient().create(GithubApi.class);
         DataRepository dataRepository = new DataRepository(githubApi);
 
+        viewModel = new SearchViewModel(dataRepository);
+
+    }
+
+    private void observeViewModel(){
+        observeDataList();
+        observeErrorMessage();
+    }
+
+    private void observeDataList(){
         Observer<List<GithubRepos>> reposListObserver = new Observer<List<GithubRepos>>() {
             @Override
             public void onChanged(List<GithubRepos> reposList) {
                 adapter.updateResults(reposList);
             }
         };
-
-        viewModel = new SearchViewModel(dataRepository);
         viewModel.getReposListLiveData().observe(this, reposListObserver);
+    }
+
+    private void observeErrorMessage(){
+        Observer<DataRepository.Error> errorObserver = new Observer<DataRepository.Error>() {
+            @Override
+            public void onChanged(DataRepository.Error error) {
+                handleErrorWhenLoadingGithubRepos(error);
+            }
+        };
+
+        viewModel.getErrorMessage().observe(this, errorObserver);
+    }
+
+    private void handleErrorWhenLoadingGithubRepos(DataRepository.Error error){
+        switch (error.getCode()){
+            case INVALID_QUERY:
+                binding.etSearchQuery.setError("Your query is invalid");
+                break;
+
+            case NETWORK_ERROR:
+                Toast.makeText(this, "Network Error! Check your connection", Toast.LENGTH_SHORT).show();
+                break;
+
+            case RESPONSE_FAILED:
+                Toast.makeText(this, "Response error!", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
 }

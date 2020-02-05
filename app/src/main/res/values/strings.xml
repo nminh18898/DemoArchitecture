@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DemoArchitecture</string>
+
+    <string name="stars">Stars</string>
 </resources>
