@@ -54,14 +54,27 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
 
     private void init(){
         setupViews();
-        setupComponents();
+        initPresenter();
+        setupRecyclerViewAndAdapter();
     }
 
-    private void setupComponents(){
+    private void setupRecyclerViewAndAdapter(){
         initPresenter();
         adapter = new GithubReposAdapter();
         rvRepos.setLayoutManager(new LinearLayoutManager(this));
         rvRepos.setAdapter(adapter);
+
+        rvRepos.addOnItemTouchListener(new GithubReposAdapterListener(this, rvRepos, new GithubReposAdapterListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(MainActivity.this, "Click: " + position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Toast.makeText(MainActivity.this, "Long click: " + position, Toast.LENGTH_SHORT).show();
+            }
+        }));
     }
 
     private void setupViews(){
