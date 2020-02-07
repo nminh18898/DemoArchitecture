@@ -32,9 +32,6 @@ public class SearchPresenterTest {
     private SearchPresenter presenter;
 
     @Mock
-    private DataRepository.GithubDataRepositoryCallback callback;
-
-    @Mock
     private DataRepository repository;
 
     @Mock
@@ -49,7 +46,7 @@ public class SearchPresenterTest {
 
         repository = new DataRepository(githubApi);
 
-        presenter = Mockito.spy(new SearchPresenter(viewContract, repository));
+        presenter = new SearchPresenter(viewContract, repository);
     }
 
     @Test
@@ -57,7 +54,6 @@ public class SearchPresenterTest {
         String searchQuery = null;
 
         presenter.searchGithubRepos(searchQuery);
-
 
         Mockito.verify(repository, Mockito.never()).searchRepos(searchQuery, null);
 
