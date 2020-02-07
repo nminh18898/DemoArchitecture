@@ -56,11 +56,12 @@ public class MainActivity extends AppCompatActivity{
 
     private void init(){
         setupViews();
-        setupComponents();
+        initGithubApi();
+        setupRecyclerViewAndAdapter();
     }
 
-    private void setupComponents(){
-        initGithubApi();
+    private void setupRecyclerViewAndAdapter(){
+
         adapter = new GithubReposAdapter();
         rvRepos.setLayoutManager(new LinearLayoutManager(this));
         rvRepos.setAdapter(adapter);
