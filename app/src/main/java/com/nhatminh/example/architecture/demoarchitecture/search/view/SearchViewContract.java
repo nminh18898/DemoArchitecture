@@ -9,6 +9,7 @@ public interface SearchViewContract {
     void showLoading();
     void hideLoading();
 
+    void displayInputEmpty();
     void displayInputError();
 
     void displaySearchedGithubRepos(List<GithubRepos> reposList);

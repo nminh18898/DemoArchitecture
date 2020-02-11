@@ -42,13 +42,11 @@ public class DataRepository {
         });
     }
 
-    private boolean validateQuery(String query){
-        if (query == null || query.trim().isEmpty()) {
-            return false;
-        }
-
+    private boolean validateQuery(String query) {
+        // to-do: check if query is valid or not
         return true;
     }
+
 
     private void handleResponse(Response<SearchResponse> response, GithubDataRepositoryCallback callback) {
         if (response.isSuccessful()) {

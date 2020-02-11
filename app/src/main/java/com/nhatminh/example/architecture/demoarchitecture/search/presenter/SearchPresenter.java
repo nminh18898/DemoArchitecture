@@ -1,16 +1,10 @@
 package com.nhatminh.example.architecture.demoarchitecture.search.presenter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
-import com.nhatminh.example.architecture.demoarchitecture.model.SearchResponse;
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
 import com.nhatminh.example.architecture.demoarchitecture.search.view.SearchViewContract;
 
 import java.util.List;
-
-import retrofit2.Response;
 
 public class SearchPresenter implements SearchPresenterContract {
 
@@ -22,8 +16,20 @@ public class SearchPresenter implements SearchPresenterContract {
         this.repository = repository;
     }
 
+    private boolean isQueryEmpty(String query){
+        if (query == null || query.trim().isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
     @Override
     public void searchGithubRepos(String query) {
+        if(isQueryEmpty(query)){
+            return;
+        }
+
         viewContract.showLoading();
 
         repository.searchRepos(query, new DataRepository.GithubDataRepositoryCallback() {

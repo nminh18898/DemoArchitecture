@@ -1,20 +1,18 @@
 package com.nhatminh.example.architecture.demoarchitecture.search.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.nhatminh.example.architecture.demoarchitecture.R;
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
-import com.nhatminh.example.architecture.demoarchitecture.model.SearchResponse;
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
 import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApi;
 import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitClient;
@@ -22,10 +20,6 @@ import com.nhatminh.example.architecture.demoarchitecture.search.presenter.Searc
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenterContract;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Ref: https://android.jlelse.eu/the-real-beginner-guide-to-android-unit-testing-3859d2f25186
@@ -112,6 +106,11 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
     @Override
     public void hideLoading() {
         pbLoading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void displayInputEmpty() {
+        etSearchQuery.setError("This field is required");
     }
 
     @Override
