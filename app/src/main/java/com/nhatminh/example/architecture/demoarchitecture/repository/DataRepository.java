@@ -24,7 +24,6 @@ public class DataRepository {
             return;
         }
 
-
         // request from server
         githubApi.searchRepos(query).enqueue(new Callback<SearchResponse>() {
             @Override
@@ -41,7 +40,11 @@ public class DataRepository {
     }
 
     private boolean validateQuery(String query) {
-        // to-do: check if query is valid or not
+        // to-do: add more case
+        if(query.contains("|") || query.contains("&")){
+            return false;
+        }
+
         return true;
     }
 
@@ -55,7 +58,7 @@ public class DataRepository {
                 callback.onSuccess(searchResponse.getSearchResults());
 
             } else {
-                callback.onError(new Error(ERROR_CODE.RESPONSE_FAILED, "Response body null"));
+                callback.onError(new Error(ERROR_CODE.RESPONSE_NOT_RECEIVED, "Response body null"));
 
             }
 
@@ -101,7 +104,7 @@ public class DataRepository {
     public enum ERROR_CODE{
         UNKNOWN,
         NETWORK_ERROR,
-        RESPONSE_FAILED,
+        RESPONSE_NOT_RECEIVED,
         INVALID_QUERY
     }
 }

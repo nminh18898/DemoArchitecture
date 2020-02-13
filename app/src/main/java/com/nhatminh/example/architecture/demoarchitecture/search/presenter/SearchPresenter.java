@@ -51,7 +51,7 @@ public class SearchPresenter implements SearchPresenterContract {
                         viewContract.displayConnectionError();
                         break;
 
-                    case RESPONSE_FAILED:
+                    case RESPONSE_NOT_RECEIVED:
                         viewContract.displaySearchError(error.getDescription());
                         break;
                 }

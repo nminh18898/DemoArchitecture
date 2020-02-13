@@ -7,17 +7,21 @@ public class RetrofitClient {
 
     private static Retrofit retrofit = null;
 
-    private static final String GITHUB_BASE_URL = "https://api.github.com";
+    private static String baseUrl = "https://api.github.com";
 
 
     public static Retrofit getClient() {
         if (retrofit==null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(GITHUB_BASE_URL)
+                    .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return retrofit;
+    }
+
+    public static void setBaseUrl(String url){
+        baseUrl = url;
     }
 
 }
