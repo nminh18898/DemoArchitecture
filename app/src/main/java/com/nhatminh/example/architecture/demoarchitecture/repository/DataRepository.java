@@ -1,11 +1,5 @@
 package com.nhatminh.example.architecture.demoarchitecture.repository;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.model.SearchResponse;
 
@@ -16,7 +10,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DataRepository {
+
     private GithubApi githubApi;
+
 
     public DataRepository(GithubApi githubApi) {
         this.githubApi = githubApi;
@@ -28,6 +24,8 @@ public class DataRepository {
             return;
         }
 
+
+        // request from server
         githubApi.searchRepos(query).enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {

@@ -27,6 +27,7 @@ public class SearchPresenter implements SearchPresenterContract {
     @Override
     public void searchGithubRepos(String query) {
         if(isQueryEmpty(query)){
+            viewContract.displayInputEmpty();
             return;
         }
 
