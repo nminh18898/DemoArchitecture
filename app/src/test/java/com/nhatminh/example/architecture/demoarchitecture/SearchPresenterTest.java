@@ -60,11 +60,10 @@ public class SearchPresenterTest {
         // invoke
         presenter.searchGithubRepos(searchQuery);
 
-        // verify repository behavior
+        // verify
         verify(repository, times(1))
                 .searchRepos(eq(searchQuery), any(DataRepository.GithubDataRepositoryCallback.class));
 
-        // verify view behavior
         InOrder viewOrder = inOrder(viewContract);
         viewOrder.verify(viewContract, times(1)).showLoading();
         viewOrder.verify(viewContract, times(1)).displaySearchedGithubRepos(fakeListRepos);

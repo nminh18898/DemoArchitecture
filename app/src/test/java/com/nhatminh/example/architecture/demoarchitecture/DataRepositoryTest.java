@@ -16,6 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -89,6 +90,7 @@ public class DataRepositoryTest {
     public void searchReposWithInvalidQuery_shouldFireInvalidQueryError(){
         String query = "&";
         CountDownLatch latch = new CountDownLatch(1);
+
         final DataRepository.ERROR_CODE[] errorCode = new DataRepository.ERROR_CODE[1];
 
         DataRepository.GithubDataRepositoryCallback callback = new DataRepository.GithubDataRepositoryCallback() {
@@ -137,7 +139,7 @@ public class DataRepositoryTest {
         // invoke
         repository.searchRepos(query, callback);
 
-        latch.await();
+        latch.await(2, TimeUnit.SECONDS);
 
         // verify
         assertEquals("Not catch invalid query error",

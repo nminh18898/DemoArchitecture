@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
             public void onClick(View v) {
                 String query = etSearchQuery.getText().toString();
                 presenter.searchGithubRepos(query);
+
             }
         });
     }

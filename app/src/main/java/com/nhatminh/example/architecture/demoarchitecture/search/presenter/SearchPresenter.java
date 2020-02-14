@@ -2,6 +2,7 @@ package com.nhatminh.example.architecture.demoarchitecture.search.presenter;
 
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
+import com.nhatminh.example.architecture.demoarchitecture.search.idlingresource.EspressoIdlingResource;
 import com.nhatminh.example.architecture.demoarchitecture.search.view.SearchViewContract;
 
 import java.util.List;
@@ -33,11 +34,15 @@ public class SearchPresenter implements SearchPresenterContract {
 
         viewContract.showLoading();
 
+        // idling resource, needed for testing (so ugly)
+        EspressoIdlingResource.increment();
+
         repository.searchRepos(query, new DataRepository.GithubDataRepositoryCallback() {
             @Override
             public void onSuccess(List<GithubRepos> reposList) {
                 viewContract.displaySearchedGithubRepos(reposList);
-                viewContract.hideLoading();
+
+                finishResponse();
             }
 
             @Override
@@ -55,9 +60,18 @@ public class SearchPresenter implements SearchPresenterContract {
                         viewContract.displaySearchError(error.getDescription());
                         break;
                 }
-                viewContract.hideLoading();
+
+                finishResponse();
             }
         });
+    }
+
+    public void finishResponse(){
+        viewContract.hideLoading();
+
+        // idling resource, needed for testing (so ugly)
+        EspressoIdlingResource.decrement();
+
     }
 
 }

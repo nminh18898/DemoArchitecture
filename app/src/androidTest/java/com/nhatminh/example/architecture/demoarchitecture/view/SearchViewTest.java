@@ -1,8 +1,10 @@
-package com.nhatminh.example.architecture.demoarchitecture;
+package com.nhatminh.example.architecture.demoarchitecture.view;
 
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
+import com.nhatminh.example.architecture.demoarchitecture.R;
 import com.nhatminh.example.architecture.demoarchitecture.search.view.MainActivity;
 
 import org.junit.Before;
@@ -12,6 +14,7 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
@@ -44,35 +47,32 @@ public class SearchViewTest {
             }
         });
 
-        onView(withId(R.id.pbLoading)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.pbLoading)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testInitialState(){
-        testProgressBarInitialState();
-        testSearchButtonInitialState();
-        testEditTextSearchQueryInitialState();
-        testRecyclerViewInitialState();
-    }
-
-    private void testProgressBarInitialState(){
+    public void testProgressBarInitialState(){
         onView(withId(R.id.pbLoading)).check(matches(not(isDisplayed())));
     }
 
-    private void testSearchButtonInitialState(){
+    @Test
+    public void testSearchButtonInitialState(){
         onView(withId(R.id.btSearch)).check(matches(isDisplayed()));
         onView(withId(R.id.btSearch)).check(matches(isClickable()));
         onView(withId(R.id.btSearch)).check(matches(withText(R.string.search)));
     }
 
-    private void testEditTextSearchQueryInitialState(){
+    @Test
+    public void testEditTextSearchQueryInitialState(){
         onView(withId(R.id.etSearchQuery)).check(matches(isDisplayed()));
         onView(withId(R.id.etSearchQuery)).check(matches(withText("")));
         onView(withId(R.id.etSearchQuery)).check(matches(isEnabled()));
     }
 
-    private void testRecyclerViewInitialState(){
+    @Test
+    public void testRecyclerViewInitialState(){
         onView(withId(R.id.rvRepos)).check(matches(isDisplayed()));
+        onView(withId(R.id.rvRepos)).check(matches(hasChildCount(0)));
     }
 
 
