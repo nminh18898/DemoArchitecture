@@ -4,7 +4,7 @@ import com.nhatminh.example.architecture.demoarchitecture.search.view.MainActivi
 
 import dagger.Component;
 
-@Component(modules = NetworkApiModule.class)
+@Component(modules = {NetworkApiModule.class, SearchPresenterContractModule.class})
 public interface AppComponent {
 
     void inject(MainActivity mainActivity);

@@ -47,8 +47,6 @@ public class SearchPresenterTest {
     public void setup() throws Exception{
         presenter = new SearchPresenter(repository);
         presenter.attachView(viewContract);
-
-
     }
 
     @After

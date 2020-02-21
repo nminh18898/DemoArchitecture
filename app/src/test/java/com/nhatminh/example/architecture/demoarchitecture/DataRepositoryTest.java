@@ -4,13 +4,11 @@ import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
 import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApiService;
 import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitClient;
-import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenter;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -46,9 +44,6 @@ public class DataRepositoryTest {
     public void tearDown() throws Exception {
         mockServer.shutdown();
     }
-
-    @Mock
-    SearchPresenter presenter;
 
     @Test
     public void searchReposWithValidQueryAndWorkingServer() throws InterruptedException {

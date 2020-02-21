@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nhatminh.example.architecture.demoarchitecture.App;
 import com.nhatminh.example.architecture.demoarchitecture.R;
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
-import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenter;
+import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenterContract;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @Inject
-    public SearchPresenter presenter;
+    public SearchPresenterContract presenter;
 
     GithubReposAdapter adapter;
 

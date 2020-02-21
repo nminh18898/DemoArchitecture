@@ -25,7 +25,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
-public class SuccessSearchFlow {
+public class SearchFlow {
 
     MainActivity activity;
 
@@ -46,7 +46,7 @@ public class SuccessSearchFlow {
     }
 
     @Test
-    public void searchWithValidQueryCompleteFlow() throws InterruptedException {
+    public void searchSuccessfulWithValidQuery_shouldShowRecyclerViewWith30Items() throws InterruptedException {
         onView(ViewMatchers.withId(R.id.etSearchQuery)).perform(typeText("android"));
         onView(withId(R.id.btSearch)).perform(click());
 
