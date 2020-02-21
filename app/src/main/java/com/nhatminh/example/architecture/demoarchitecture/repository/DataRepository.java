@@ -5,17 +5,19 @@ import com.nhatminh.example.architecture.demoarchitecture.model.SearchResponse;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DataRepository {
 
-    private GithubApi githubApi;
+    private GithubApiService githubApiService;
 
-
-    public DataRepository(GithubApi githubApi) {
-        this.githubApi = githubApi;
+    @Inject
+    public DataRepository(GithubApiService githubApiService) {
+        this.githubApiService = githubApiService;
     }
 
     public void searchRepos(String query, GithubDataRepositoryCallback callback){
@@ -25,9 +27,15 @@ public class DataRepository {
         }
 
         // request from server
-        githubApi.searchRepos(query).enqueue(new Callback<SearchResponse>() {
+        githubApiService.searchRepos(query).enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 handleResponse(response, callback);
             }
 

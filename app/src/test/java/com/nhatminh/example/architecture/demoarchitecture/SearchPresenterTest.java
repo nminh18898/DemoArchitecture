@@ -6,13 +6,15 @@ import com.nhatminh.example.architecture.demoarchitecture.search.presenter.Searc
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenterContract;
 import com.nhatminh.example.architecture.demoarchitecture.search.view.SearchViewContract;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
@@ -25,12 +27,15 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+
 public class SearchPresenterTest {
 
     private SearchPresenterContract presenter;
 
     List<GithubRepos> fakeListRepos;
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Mock
     private DataRepository repository;
@@ -40,7 +45,15 @@ public class SearchPresenterTest {
 
     @Before
     public void setup() throws Exception{
-        presenter = new SearchPresenter(viewContract, repository);
+        presenter = new SearchPresenter(repository);
+        presenter.attachView(viewContract);
+
+
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        presenter.detachView();
     }
 
     @Test

@@ -11,15 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nhatminh.example.architecture.demoarchitecture.App;
 import com.nhatminh.example.architecture.demoarchitecture.R;
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
-import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
-import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApi;
-import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitClient;
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenter;
-import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenterContract;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Ref: https://android.jlelse.eu/the-real-beginner-guide-to-android-unit-testing-3859d2f25186
@@ -29,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    SearchPresenterContract presenter;
+    @Inject
+    public SearchPresenter presenter;
 
     GithubReposAdapter adapter;
 
@@ -89,14 +89,35 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
         });
     }
 
+
     private void initPresenter(){
 
-        GithubApi githubApi = RetrofitClient.getClient().create(GithubApi.class);
-        DataRepository dataRepository = new DataRepository(githubApi);
+        /*GithubApiService githubApiService = RetrofitClient.getClient().create(GithubApiService.class);
+        DataRepository dataRepository = new DataRepository(githubApiService);
 
-        presenter = new SearchPresenter(this, dataRepository);
+        presenter = new SearchPresenter(dataRepository);*/
+
+        App.getComponent().inject(this);
+
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.detachView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void showLoading() {
@@ -131,5 +152,10 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
     @Override
     public void displaySearchError(String errorMessage) {
         Toast.makeText(this, "Search Error !!!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

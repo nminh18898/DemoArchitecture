@@ -2,7 +2,7 @@ package com.nhatminh.example.architecture.demoarchitecture;
 
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
-import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApi;
+import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApiService;
 import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitClient;
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenter;
 
@@ -11,12 +11,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -28,7 +27,7 @@ public class DataRepositoryTest {
 
     private MockWebServer mockServer;
 
-    private GithubApi githubApi;
+    private GithubApiService githubApiService;
 
     private DataRepository repository;
 
@@ -38,9 +37,9 @@ public class DataRepositoryTest {
         mockServer.start();
 
         RetrofitClient.setBaseUrl(mockServer.url("/").toString());
-        githubApi = RetrofitClient.getClient().create(GithubApi.class);
+        githubApiService = RetrofitClient.getClient().create(GithubApiService.class);
 
-        repository = new DataRepository(githubApi);
+        repository = new DataRepository(githubApiService);
     }
 
     @After
@@ -139,7 +138,7 @@ public class DataRepositoryTest {
         // invoke
         repository.searchRepos(query, callback);
 
-        latch.await(2, TimeUnit.SECONDS);
+        latch.await();
 
         // verify
         assertEquals("Not catch invalid query error",

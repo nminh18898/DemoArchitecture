@@ -7,13 +7,17 @@ import com.nhatminh.example.architecture.demoarchitecture.search.view.SearchView
 
 import java.util.List;
 
-public class SearchPresenter implements SearchPresenterContract {
+import javax.inject.Inject;
+
+public class SearchPresenter implements SearchPresenterContract{
 
     private SearchViewContract viewContract;
     private DataRepository repository;
 
-    public SearchPresenter(SearchViewContract viewContract, DataRepository repository) {
-        this.viewContract = viewContract;
+    List<GithubRepos> repos;
+
+    @Inject
+    public SearchPresenter(DataRepository repository) {
         this.repository = repository;
     }
 
@@ -24,6 +28,8 @@ public class SearchPresenter implements SearchPresenterContract {
 
         return false;
     }
+
+
 
     @Override
     public void searchGithubRepos(String query) {
@@ -40,7 +46,9 @@ public class SearchPresenter implements SearchPresenterContract {
         repository.searchRepos(query, new DataRepository.GithubDataRepositoryCallback() {
             @Override
             public void onSuccess(List<GithubRepos> reposList) {
-                viewContract.displaySearchedGithubRepos(reposList);
+                repos = reposList;
+
+                viewContract.displaySearchedGithubRepos(repos);
 
                 finishResponse();
             }
@@ -66,12 +74,26 @@ public class SearchPresenter implements SearchPresenterContract {
         });
     }
 
+    @Override
+    public void attachView(SearchViewContract view) {
+        this.viewContract = view;
+    }
+
+    @Override
+    public void detachView() {
+        if(this.viewContract != null) {
+            this.viewContract = null;
+        }
+    }
+
+
     public void finishResponse(){
         viewContract.hideLoading();
 
         // idling resource, needed for testing (so ugly)
         EspressoIdlingResource.decrement();
-
     }
+
+
 
 }
