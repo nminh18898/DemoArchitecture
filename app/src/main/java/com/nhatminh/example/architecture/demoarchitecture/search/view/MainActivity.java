@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
     }
 
     private void setupRecyclerViewAndAdapter(){
-        initPresenter();
         adapter = new GithubReposAdapter();
         rvRepos.setLayoutManager(new LinearLayoutManager(this));
         rvRepos.setAdapter(adapter);
