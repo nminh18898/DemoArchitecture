@@ -9,11 +9,15 @@ public interface SearchViewContract {
     void showLoading();
     void hideLoading();
 
+    void displaySearchedGithubRepos(List<GithubRepos> reposList);
+
     void displayInputEmpty();
     void displayInputError();
-
-    void displaySearchedGithubRepos(List<GithubRepos> reposList);
     void displayConnectionError();
     void displaySearchError(String errorMessage);
+
+    void showToast(String message);
+
+    void navigateToHomeActivity();
 
 }

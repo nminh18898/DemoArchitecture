@@ -1,4 +1,4 @@
-package com.nhatminh.example.architecture.demoarchitecture;
+package com.nhatminh.example.architecture.demoarchitecture.searchpresenter;
 
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;

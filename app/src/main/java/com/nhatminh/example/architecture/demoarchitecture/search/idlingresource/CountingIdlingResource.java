@@ -35,14 +35,10 @@ public class CountingIdlingResource implements IdlingResource {
     public void decrement() {
         count--;
 
-        if(count==0) {
+        if(count==0 || count < 0) {
             if(resourceCallback!=null) {
                 resourceCallback.onTransitionToIdle();
             }
-        }
-
-        if(count<0) {
-            throw new IllegalArgumentException("Counter corrupted!");
         }
     }
 

@@ -7,8 +7,6 @@ import com.nhatminh.example.architecture.demoarchitecture.search.view.SearchView
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 public class SearchPresenter implements SearchPresenterContract{
 
     private SearchViewContract viewContract;
@@ -16,7 +14,6 @@ public class SearchPresenter implements SearchPresenterContract{
 
     List<GithubRepos> repos;
 
-    @Inject
     public SearchPresenter(DataRepository repository) {
         this.repository = repository;
     }
@@ -28,8 +25,6 @@ public class SearchPresenter implements SearchPresenterContract{
 
         return false;
     }
-
-
 
     @Override
     public void searchGithubRepos(String query) {
@@ -75,6 +70,16 @@ public class SearchPresenter implements SearchPresenterContract{
     }
 
     @Override
+    public void onSearchReposItemClicked(int pos) {
+        viewContract.showToast("Click: " + pos);
+    }
+
+    @Override
+    public void onSearchReposItemLongClicked(int pos) {
+        viewContract.navigateToHomeActivity();
+    }
+
+    @Override
     public void attachView(SearchViewContract view) {
         this.viewContract = view;
     }
@@ -92,8 +97,7 @@ public class SearchPresenter implements SearchPresenterContract{
 
         // idling resource, needed for testing (so ugly)
         EspressoIdlingResource.decrement();
+
     }
-
-
 
 }

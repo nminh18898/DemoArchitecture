@@ -1,6 +1,5 @@
 package com.nhatminh.example.architecture.demoarchitecture.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class GithubRepos {
@@ -40,6 +39,22 @@ public class GithubRepos {
 
     @SerializedName("score")
     private Double score;
+
+
+    public GithubRepos() {
+        id = 0;
+        name = "";
+        fullName="";
+        _private = true;
+        description="";
+        updatedAt = "";
+        size=0;
+        stargazersCount=0;
+        language="";
+        hasWiki=true;
+        archived=true;
+        score=0d;
+    }
 
     public Integer getId() {
         return id;

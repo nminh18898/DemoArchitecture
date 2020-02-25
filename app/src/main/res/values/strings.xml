@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">DemoArchitecture</string>
     <string name="search">Search</string>
+
+    <string name="this_field_is_required">This field is required</string>
+    <string name="invalid_input">Invalid input</string>
+    <string name="network_error">Network Error</string>
+    <string name="search_response_error">Search Response Error</string>
 </resources>

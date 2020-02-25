@@ -1,4 +1,4 @@
-package com.nhatminh.example.architecture.demoarchitecture.daggerinjection;
+package com.nhatminh.example.architecture.demoarchitecture.daggerdi;
 
 import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApiService;
 import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitClient;
@@ -10,7 +10,7 @@ import dagger.Provides;
 public class NetworkApiModule {
 
     @Provides
-    GithubApiService provideGithubApiService(){
+    public GithubApiService provideGithubApiService(){
         return RetrofitClient.getClient().create(GithubApiService.class);
     }
 

@@ -1,4 +1,4 @@
-package com.nhatminh.example.architecture.demoarchitecture.daggerinjection;
+package com.nhatminh.example.architecture.demoarchitecture.daggerdi;
 
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenter;

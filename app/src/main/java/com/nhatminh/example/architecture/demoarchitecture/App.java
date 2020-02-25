@@ -2,10 +2,10 @@ package com.nhatminh.example.architecture.demoarchitecture;
 
 import android.app.Application;
 
-import com.nhatminh.example.architecture.demoarchitecture.daggerinjection.AppComponent;
-import com.nhatminh.example.architecture.demoarchitecture.daggerinjection.DaggerAppComponent;
-import com.nhatminh.example.architecture.demoarchitecture.daggerinjection.NetworkApiModule;
-import com.nhatminh.example.architecture.demoarchitecture.daggerinjection.SearchPresenterContractModule;
+import com.nhatminh.example.architecture.demoarchitecture.daggerdi.AppComponent;
+import com.nhatminh.example.architecture.demoarchitecture.daggerdi.DaggerAppComponent;
+import com.nhatminh.example.architecture.demoarchitecture.daggerdi.NetworkApiModule;
+import com.nhatminh.example.architecture.demoarchitecture.daggerdi.SearchPresenterContractModule;
 
 public class App extends Application {
 
@@ -26,5 +26,10 @@ public class App extends Application {
                 .networkApiModule(new NetworkApiModule())
                 .searchPresenterContractModule(new SearchPresenterContractModule())
                 .build();
+    }
+
+
+    public void setComponent(AppComponent component) {
+        App.component = component;
     }
 }

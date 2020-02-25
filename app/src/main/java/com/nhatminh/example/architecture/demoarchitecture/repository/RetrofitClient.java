@@ -1,5 +1,7 @@
 package com.nhatminh.example.architecture.demoarchitecture.repository;
 
+import androidx.annotation.VisibleForTesting;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -19,6 +21,7 @@ public class RetrofitClient {
         return retrofit;
     }
 
+    @VisibleForTesting
     public static void setBaseUrl(String url){
         baseUrl = url;
     }

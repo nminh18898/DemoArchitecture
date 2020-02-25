@@ -1,5 +1,6 @@
 package com.nhatminh.example.architecture.demoarchitecture.search.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhatminh.example.architecture.demoarchitecture.App;
 import com.nhatminh.example.architecture.demoarchitecture.R;
+import com.nhatminh.example.architecture.demoarchitecture.home.HomeActivity;
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenterContract;
 
@@ -24,12 +26,12 @@ import javax.inject.Inject;
  * Ref: https://android.jlelse.eu/the-real-beginner-guide-to-android-unit-testing-3859d2f25186
  */
 
-public class MainActivity extends AppCompatActivity implements SearchViewContract{
+public class SearchActivity extends AppCompatActivity implements SearchViewContract{
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = SearchActivity.class.getSimpleName();
 
     @Inject
-    public SearchPresenterContract presenter;
+    SearchPresenterContract presenter;
 
     GithubReposAdapter adapter;
 
@@ -60,12 +62,12 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
         rvRepos.addOnItemTouchListener(new GithubReposAdapterListener(this, rvRepos, new GithubReposAdapterListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(MainActivity.this, "Click: " + position, Toast.LENGTH_SHORT).show();
+                presenter.onSearchReposItemClicked(position);
             }
 
             @Override
             public void onItemLongClick(View view, int position) {
-                Toast.makeText(MainActivity.this, "Long click: " + position, Toast.LENGTH_SHORT).show();
+                presenter.onSearchReposItemLongClicked(position);
             }
         }));
     }
@@ -89,33 +91,43 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
     }
 
 
+
     private void initPresenter(){
 
-        /*GithubApiService githubApiService = RetrofitClient.getClient().create(GithubApiService.class);
+        /**
+         *  == Initialization code without dagger ==
+         *
+        GithubApiService githubApiService = RetrofitClient.getClient().create(GithubApiService.class);
         DataRepository dataRepository = new DataRepository(githubApiService);
 
-        presenter = new SearchPresenter(dataRepository);*/
+        presenter = new SearchPresenter(dataRepository); */
 
+        // Initialization code with dagger
         App.getComponent().inject(this);
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        presenter.attachView(this);
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        presenter.detachView();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        presenter.attachView(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.detachView();
     }
 
     @Override
@@ -130,12 +142,12 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
 
     @Override
     public void displayInputEmpty() {
-        etSearchQuery.setError("This field is required");
+        etSearchQuery.setError(getResources().getString(R.string.this_field_is_required));
     }
 
     @Override
     public void displayInputError() {
-        etSearchQuery.setError("Invalid input");
+        etSearchQuery.setError(getResources().getString(R.string.invalid_input));
     }
 
     @Override
@@ -145,16 +157,28 @@ public class MainActivity extends AppCompatActivity implements SearchViewContrac
 
     @Override
     public void displayConnectionError() {
-        Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.network_error), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void displaySearchError(String errorMessage) {
-        Toast.makeText(this, "Search Error !!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.search_response_error), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(SearchActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void navigateToHomeActivity() {
+        Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
+
 }

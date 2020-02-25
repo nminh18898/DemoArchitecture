@@ -1,9 +1,6 @@
-package com.nhatminh.example.architecture.demoarchitecture;
+package com.nhatminh.example.architecture.demoarchitecture.repository;
 
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
-import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
-import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApiService;
-import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitClient;
 
 import org.junit.After;
 import org.junit.Before;
@@ -74,7 +71,6 @@ public class DataRepositoryTest {
         repository.searchRepos(query, callback);
 
         latch.await();
-
 
         // verify
         assertEquals("Result list not match with expected", 1, resultList.size());

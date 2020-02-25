@@ -30,11 +30,6 @@ public class DataRepository {
         githubApiService.searchRepos(query).enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
                 handleResponse(response, callback);
             }

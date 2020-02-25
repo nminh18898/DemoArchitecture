@@ -1,4 +1,4 @@
-package com.nhatminh.example.architecture.demoarchitecture;
+package com.nhatminh.example.architecture.demoarchitecture.repository;
 
 public class MockGithubServerResponse {
 
