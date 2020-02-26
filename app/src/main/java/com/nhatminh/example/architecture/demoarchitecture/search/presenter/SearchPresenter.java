@@ -3,6 +3,7 @@ package com.nhatminh.example.architecture.demoarchitecture.search.presenter;
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
 import com.nhatminh.example.architecture.demoarchitecture.search.idlingresource.EspressoIdlingResource;
+import com.nhatminh.example.architecture.demoarchitecture.search.usecases.StoreLastUserQueryUseCase;
 import com.nhatminh.example.architecture.demoarchitecture.search.view.SearchViewContract;
 
 import java.util.List;
@@ -10,12 +11,18 @@ import java.util.List;
 public class SearchPresenter implements SearchPresenterContract{
 
     private SearchViewContract viewContract;
+
     private DataRepository repository;
+
+    private StoreLastUserQueryUseCase storeLastUserQueryUsecase;
 
     List<GithubRepos> repos;
 
-    public SearchPresenter(DataRepository repository) {
+    private String lastQuery = "";
+
+    public SearchPresenter(DataRepository repository, StoreLastUserQueryUseCase storeLastUserQueryUsecase) {
         this.repository = repository;
+        this.storeLastUserQueryUsecase = storeLastUserQueryUsecase;
     }
 
     private boolean isQueryEmpty(String query){
@@ -44,6 +51,8 @@ public class SearchPresenter implements SearchPresenterContract{
                 repos = reposList;
 
                 viewContract.displaySearchedGithubRepos(repos);
+
+                lastQuery = query;
 
                 finishResponse();
             }
@@ -89,6 +98,19 @@ public class SearchPresenter implements SearchPresenterContract{
         if(this.viewContract != null) {
             this.viewContract = null;
         }
+    }
+
+    @Override
+    public void saveLastQuery() {
+        if (!lastQuery.isEmpty()){
+            storeLastUserQueryUsecase.saveLastQuery(lastQuery);
+        }
+    }
+
+    @Override
+    public void retrieveLastQuery() {
+        lastQuery = storeLastUserQueryUsecase.retrieveLastQuery();
+        viewContract.displayLastSearchQuery(lastQuery);
     }
 
 

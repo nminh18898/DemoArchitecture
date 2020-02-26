@@ -20,4 +20,6 @@ public interface SearchViewContract {
 
     void navigateToHomeActivity();
 
+    void displayLastSearchQuery(String lastQuery);
+
 }

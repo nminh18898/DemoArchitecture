@@ -13,4 +13,7 @@ public interface SearchPresenterContract extends LifecycleObserver {
     void attachView(SearchViewContract view);
     void detachView();
 
+    void saveLastQuery();
+    void retrieveLastQuery();
+
 }

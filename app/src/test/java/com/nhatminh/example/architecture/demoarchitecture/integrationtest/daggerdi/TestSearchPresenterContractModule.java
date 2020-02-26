@@ -3,6 +3,7 @@ package com.nhatminh.example.architecture.demoarchitecture.integrationtest.dagge
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenter;
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenterContract;
+import com.nhatminh.example.architecture.demoarchitecture.search.usecases.StoreLastUserQueryUseCase;
 
 import dagger.Module;
 import dagger.Provides;
@@ -11,13 +12,15 @@ import dagger.Provides;
 public class TestSearchPresenterContractModule {
 
     DataRepository dataRepository;
+    StoreLastUserQueryUseCase storeLastUserQueryUseCase;
 
-    public TestSearchPresenterContractModule(DataRepository dataRepository) {
+    public TestSearchPresenterContractModule(DataRepository dataRepository, StoreLastUserQueryUseCase storeLastUserQueryUseCase) {
         this.dataRepository = dataRepository;
+        this.storeLastUserQueryUseCase = storeLastUserQueryUseCase;
     }
 
     @Provides
     SearchPresenterContract provideSearchPresenterContract(){
-        return new SearchPresenter(dataRepository);
+        return new SearchPresenter(dataRepository, storeLastUserQueryUseCase);
     }
 }

@@ -51,7 +51,6 @@ public class DataRepository {
         return true;
     }
 
-
     private void handleResponse(Response<SearchResponse> response, GithubDataRepositoryCallback callback) {
         if (response.isSuccessful()) {
 

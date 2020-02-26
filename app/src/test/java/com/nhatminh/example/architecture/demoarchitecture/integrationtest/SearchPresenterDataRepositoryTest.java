@@ -1,11 +1,14 @@
 package com.nhatminh.example.architecture.demoarchitecture.integrationtest;
 
+import android.content.Context;
+
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
 import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApiService;
 import com.nhatminh.example.architecture.demoarchitecture.repository.MockGithubServerResponse;
 import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitClient;
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenter;
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenterContract;
+import com.nhatminh.example.architecture.demoarchitecture.search.usecases.StoreLastUserQueryUseCase;
 import com.nhatminh.example.architecture.demoarchitecture.search.view.SearchViewContract;
 
 import org.junit.After;
@@ -30,6 +33,8 @@ public class SearchPresenterDataRepositoryTest {
 
     DataRepository repository;
 
+    StoreLastUserQueryUseCase storeLastUserQueryUseCase;
+
     private GithubApiService githubApiService;
 
     private MockWebServer mockServer;
@@ -39,6 +44,9 @@ public class SearchPresenterDataRepositoryTest {
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+    @Mock
+    Context context;
 
     @Before
     public void setUp() throws Exception {
@@ -50,7 +58,9 @@ public class SearchPresenterDataRepositoryTest {
 
         repository = new DataRepository(githubApiService);
 
-        presenter = new SearchPresenter(repository);
+        storeLastUserQueryUseCase = new StoreLastUserQueryUseCase(context);
+
+        presenter = new SearchPresenter(repository, storeLastUserQueryUseCase);
 
         presenter.attachView(view);
     }

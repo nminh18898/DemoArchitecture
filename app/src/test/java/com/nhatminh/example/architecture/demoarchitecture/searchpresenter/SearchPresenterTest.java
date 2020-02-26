@@ -4,6 +4,7 @@ import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenter;
 import com.nhatminh.example.architecture.demoarchitecture.search.presenter.SearchPresenterContract;
+import com.nhatminh.example.architecture.demoarchitecture.search.usecases.StoreLastUserQueryUseCase;
 import com.nhatminh.example.architecture.demoarchitecture.search.view.SearchViewContract;
 
 import org.junit.After;
@@ -43,9 +44,12 @@ public class SearchPresenterTest {
     @Mock
     private SearchViewContract viewContract;
 
+    @Mock
+    private StoreLastUserQueryUseCase storeLastUserQueryUseCase;
+
     @Before
     public void setup() throws Exception{
-        presenter = new SearchPresenter(repository);
+        presenter = new SearchPresenter(repository, storeLastUserQueryUseCase);
         presenter.attachView(viewContract);
     }
 

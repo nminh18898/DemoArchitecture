@@ -3,6 +3,7 @@ package com.nhatminh.example.architecture.demoarchitecture;
 import android.app.Application;
 
 import com.nhatminh.example.architecture.demoarchitecture.daggerdi.AppComponent;
+import com.nhatminh.example.architecture.demoarchitecture.daggerdi.AppModule;
 import com.nhatminh.example.architecture.demoarchitecture.daggerdi.DaggerAppComponent;
 import com.nhatminh.example.architecture.demoarchitecture.daggerdi.NetworkApiModule;
 import com.nhatminh.example.architecture.demoarchitecture.daggerdi.SearchPresenterContractModule;
@@ -25,6 +26,7 @@ public class App extends Application {
         return DaggerAppComponent.builder()
                 .networkApiModule(new NetworkApiModule())
                 .searchPresenterContractModule(new SearchPresenterContractModule())
+                .appModule(new AppModule(getApplicationContext()))
                 .build();
     }
 

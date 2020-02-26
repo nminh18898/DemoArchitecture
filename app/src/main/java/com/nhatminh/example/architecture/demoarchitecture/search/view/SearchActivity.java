@@ -85,9 +85,12 @@ public class SearchActivity extends AppCompatActivity implements SearchViewContr
             public void onClick(View v) {
                 String query = etSearchQuery.getText().toString();
                 presenter.searchGithubRepos(query);
-
             }
         });
+    }
+
+    private void findLastSearchQuery(){
+        presenter.retrieveLastQuery();
     }
 
 
@@ -115,6 +118,7 @@ public class SearchActivity extends AppCompatActivity implements SearchViewContr
     @Override
     protected void onStop() {
         super.onStop();
+        presenter.saveLastQuery();
 
     }
 
@@ -122,6 +126,7 @@ public class SearchActivity extends AppCompatActivity implements SearchViewContr
     protected void onResume() {
         super.onResume();
         presenter.attachView(this);
+        findLastSearchQuery();
     }
 
     @Override
@@ -174,6 +179,11 @@ public class SearchActivity extends AppCompatActivity implements SearchViewContr
     public void navigateToHomeActivity() {
         Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void displayLastSearchQuery(String lastQuery) {
+        etSearchQuery.setText(lastQuery);
     }
 
     @Override

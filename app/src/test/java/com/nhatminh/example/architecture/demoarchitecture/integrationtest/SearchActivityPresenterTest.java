@@ -17,6 +17,7 @@ import com.nhatminh.example.architecture.demoarchitecture.integrationtest.dagger
 import com.nhatminh.example.architecture.demoarchitecture.integrationtest.daggerdi.TestSearchPresenterContractModule;
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
+import com.nhatminh.example.architecture.demoarchitecture.search.usecases.StoreLastUserQueryUseCase;
 import com.nhatminh.example.architecture.demoarchitecture.search.view.SearchActivity;
 
 import org.junit.After;
@@ -61,6 +62,9 @@ public class SearchActivityPresenterTest {
     @Mock
     DataRepository repository;
 
+    @Mock
+    StoreLastUserQueryUseCase storeLastUserQueryUseCase;
+
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
@@ -69,7 +73,7 @@ public class SearchActivityPresenterTest {
 
         // use test module (fake) instead of using real one
         AppComponent testComponent = DaggerTestAppComponent.builder()
-                .testSearchPresenterContractModule(new TestSearchPresenterContractModule(repository))
+                .testSearchPresenterContractModule(new TestSearchPresenterContractModule(repository, storeLastUserQueryUseCase))
                 .build();
 
         ((App) ApplicationProvider.getApplicationContext()).setComponent(testComponent);
