@@ -27,6 +27,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 public class SearchPresenterTest {
@@ -62,15 +63,7 @@ public class SearchPresenterTest {
     public void searchGithubRepos_validQuery() {
         // set up elements
         String searchQuery = "android";
-        fakeListRepos = createFakeReposList();
-        doAnswer(new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((DataRepository.GithubDataRepositoryCallback) invocation.getArguments()[1]).onSuccess(fakeListRepos);
-                return null;
-            }
-        }).when(repository).searchRepos(eq(searchQuery),
-                any(DataRepository.GithubDataRepositoryCallback.class));
+        setupSearchSuccessfulWithValidQuery(searchQuery);
 
         // invoke
         presenter.searchGithubRepos(searchQuery);
@@ -93,11 +86,10 @@ public class SearchPresenterTest {
         // invoke
         presenter.searchGithubRepos(searchQuery);
 
-        // verify repository behavior
+        // verify
         verify(repository, times(0))
                 .searchRepos(eq(searchQuery), any(DataRepository.GithubDataRepositoryCallback.class));
 
-        // verify view behavior
         verify(viewContract, times(0)).showLoading();
         verify(viewContract, times(0)).displaySearchedGithubRepos(fakeListRepos);
         verify(viewContract, times(0)).hideLoading();
@@ -137,6 +129,48 @@ public class SearchPresenterTest {
         viewOrder.verify(viewContract, times(1)).displayConnectionError();
         viewOrder.verify(viewContract, times(1)).hideLoading();
     }
+
+    @Test
+    public void testSaveLastQueryWithValidQuery_shouldCallSaveLastQueryMethod_inStoreLastUserQueryUseCase(){
+        //set up
+        String searchQuery = "android";
+        setupSearchSuccessfulWithValidQuery(searchQuery);
+
+        // invoke
+        presenter.searchGithubRepos(searchQuery);
+        presenter.saveLastQuery();
+
+        //verify
+        verify(storeLastUserQueryUseCase, times(1)).saveLastQuery(searchQuery);
+    }
+
+    @Test
+    public void testRetrieveLastQuery_shouldCallDisplayLastSearchQuery_inView(){
+        // setup
+        String lastQuery = "lastQuery";
+
+        when(storeLastUserQueryUseCase.retrieveLastQuery()).thenReturn(lastQuery);
+
+        // invoke
+        presenter.retrieveLastQuery();
+
+        //verify
+        verify(viewContract, times(1)).displayLastSearchQuery(lastQuery);
+    }
+
+
+    private void setupSearchSuccessfulWithValidQuery(String searchQuery){
+        fakeListRepos = createFakeReposList();
+        doAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((DataRepository.GithubDataRepositoryCallback) invocation.getArguments()[1]).onSuccess(fakeListRepos);
+                return null;
+            }
+        }).when(repository).searchRepos(eq(searchQuery),
+                any(DataRepository.GithubDataRepositoryCallback.class));
+    }
+
 
     private List<GithubRepos> createFakeReposList(){
         List<GithubRepos> reposList = new ArrayList<>();

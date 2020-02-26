@@ -102,8 +102,9 @@ public class SearchActivity extends AppCompatActivity implements SearchViewContr
          *
         GithubApiService githubApiService = RetrofitClient.getClient().create(GithubApiService.class);
         DataRepository dataRepository = new DataRepository(githubApiService);
+        StoreLastUserQueryUseCase storeLastUserQueryUseCase = new StoreLastUserQueryUseCase(this);
 
-        presenter = new SearchPresenter(dataRepository); */
+        presenter = new SearchPresenter(dataRepository, storeLastUserQueryUseCase); */
 
         // Initialization code with dagger
         App.getComponent().inject(this);
