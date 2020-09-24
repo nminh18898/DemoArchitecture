@@ -1,26 +1,21 @@
 package com.nhatminh.example.architecture.demoarchitecture.search.view;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.nhatminh.example.architecture.demoarchitecture.R;
 import com.nhatminh.example.architecture.demoarchitecture.databinding.ActivityMainBinding;
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
 import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApi;
-import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitClient;
 import com.nhatminh.example.architecture.demoarchitecture.search.viewmodel.SearchViewModel;
 import com.nhatminh.example.architecture.demoarchitecture.search.viewmodel.SearchViewModelFactory;
 

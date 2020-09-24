@@ -1,11 +1,5 @@
 package com.nhatminh.example.architecture.demoarchitecture.repository;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
 import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos;
 import com.nhatminh.example.architecture.demoarchitecture.model.SearchResponse;
 
