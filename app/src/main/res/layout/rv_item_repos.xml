@@ -44,7 +44,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
                 tools:text="Numbers of stars"
-                android:text='@{@string/stars + ": " + githubRepos.stargazersCount.toString()}'></TextView>
+                android:text='@{@string/stars + ": " + Integer.toString(githubRepos.stargazersCount)}'></TextView>
 
             <TextView
                 android:id="@+id/tv_repo_description"

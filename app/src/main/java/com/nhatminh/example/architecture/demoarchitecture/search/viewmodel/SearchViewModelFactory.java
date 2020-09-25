@@ -3,7 +3,6 @@ package com.nhatminh.example.architecture.demoarchitecture.search.viewmodel;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository;
 
