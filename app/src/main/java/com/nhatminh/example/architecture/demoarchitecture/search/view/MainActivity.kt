@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner{
     }
 
     private fun initViewModel() {
-        var githubApi = RetrofitClient.retrofit.create(GithubApi::class.java)
+        val githubApi = RetrofitClient.retrofit.create(GithubApi::class.java)
         val repository = DataRepository(githubApi)
         viewModel = ViewModelProviders.of(this, SearchViewModelFactory(repository)).get(SearchViewModel::class.java)
     }
@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner{
     private fun observerDataList(){
         val reposListObserver : Observer<ReposData> = Observer {
             reposData -> adapter.updateResults(reposData.reposList)
+            adapter.notifyDataSetChanged()
         }
         viewModel.reposData.observe(this, reposListObserver)
     }

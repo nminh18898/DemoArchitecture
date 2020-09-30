@@ -28,7 +28,6 @@ class GithubReposAdapter : RecyclerView.Adapter<GithubReposAdapter.ReposViewHold
 
     fun updateResults(reposList : List<GithubRepos>){
         this.reposList = reposList
-        notifyDataSetChanged()
     }
 
     class ReposViewHolder(val binding: RvItemReposBinding) : RecyclerView.ViewHolder(binding.root) {
