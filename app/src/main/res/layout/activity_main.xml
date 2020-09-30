@@ -47,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{@string/count_repos(searchViewModel.reposData.reposList.size())}"
+            tools:text="Number of repos: "
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etSearchQuery"
             android:layout_marginLeft="12dp"
