@@ -1,7 +1,6 @@
 package com.nhatminh.example.architecture.demoarchitecture.search.view
 
 import android.os.Bundle
-import android.text.Layout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
@@ -18,11 +17,12 @@ import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitCli
 import com.nhatminh.example.architecture.demoarchitecture.search.viewmodel.SearchViewModel
 import com.nhatminh.example.architecture.demoarchitecture.search.viewmodel.SearchViewModelFactory
 
+
 class MainActivity : AppCompatActivity(), LifecycleOwner{
 
-    lateinit var viewModel : SearchViewModel
-    var adapter : GithubReposAdapter = GithubReposAdapter()
-    lateinit var binding : ActivityMainBinding
+    private lateinit var viewModel : SearchViewModel
+    private var adapter : GithubReposAdapter = GithubReposAdapter()
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner{
         initViewModel()
         setupRecyclerViewAndAdapter()
         setupBindingData()
+        observerDataList()
     }
 
     private fun initViewModel() {
@@ -52,5 +53,12 @@ class MainActivity : AppCompatActivity(), LifecycleOwner{
     private fun setupBindingData() {
         binding.searchViewModel = viewModel
         binding.lifecycleOwner = this
+    }
+
+    private fun observerDataList(){
+        val reposListObserver : Observer<ReposData> = Observer {
+            reposData -> adapter.updateResults(reposData.reposList)
+        }
+        viewModel.reposData.observe(this, reposListObserver)
     }
 }

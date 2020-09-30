@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.nhatminh.example.architecture.demoarchitecture.model.ReposData
 import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository
 
-class SearchViewModel (val repository: DataRepository) : ViewModel() {
+class SearchViewModel (private val repository: DataRepository) : ViewModel() {
 
     /*private var _searchRepos : MutableLiveData<MutableList<GithubRepos>> = MutableLiveData(ArrayList())
     val searchRepos : LiveData<List<GithubRepos>>
@@ -22,7 +22,11 @@ class SearchViewModel (val repository: DataRepository) : ViewModel() {
 
     var reposData : LiveData<ReposData> = MutableLiveData((ReposData()))
 
+    init {
+        reposData = repository.reposData
+    }
+
     fun searchGithubRepos(query : String){
-        reposData = repository.searchRepos(query)
+        repository.searchRepos(query)
     }
 }

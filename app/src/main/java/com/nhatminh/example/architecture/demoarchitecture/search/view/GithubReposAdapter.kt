@@ -11,7 +11,7 @@ import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos
 
 class GithubReposAdapter : RecyclerView.Adapter<GithubReposAdapter.ReposViewHolder>() {
 
-    var reposList : MutableList<GithubRepos> = ArrayList<GithubRepos>()
+    var reposList : List<GithubRepos> = ArrayList<GithubRepos>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReposViewHolder {
         var rvItemReposBinding :  RvItemReposBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),
@@ -26,7 +26,7 @@ class GithubReposAdapter : RecyclerView.Adapter<GithubReposAdapter.ReposViewHold
 
     override fun getItemCount(): Int = reposList.size
 
-    fun updateResults(reposList : MutableList<GithubRepos>){
+    fun updateResults(reposList : List<GithubRepos>){
         this.reposList = reposList
         notifyDataSetChanged()
     }
