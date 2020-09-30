@@ -42,11 +42,24 @@
             android:onClick="@{()->searchViewModel.searchGithubRepos(etSearchQuery.getText().toString())}"
             />
 
+        <TextView
+            android:id="@+id/tvCountRepos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/count_repos(searchViewModel.reposData.reposList.size())}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etSearchQuery"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRepos"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/etSearchQuery"
+            app:layout_constraintTop_toBottomOf="@id/tvCountRepos"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="12dp" />
 

@@ -2,4 +2,6 @@
     <string name="app_name">DemoArchitecture</string>
 
     <string name="stars">Stars</string>
+
+    <string name="count_repos">Number of repos: %d</string>
 </resources>
