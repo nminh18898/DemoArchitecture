@@ -15,14 +15,18 @@ class SearchViewModel (private val repository: DataRepository) : ViewModel() {
     var reposData : LiveData<ReposData> = Transformations.switchMap(queryStr){
         query ->
         val dataFromRepos = repository.searchRepos(query)
+
         Transformations.switchMap(dataFromRepos){
-            reposData ->
-            val list = reposData.reposList.filter { it.stargazersCount > 1000 }.sortedByDescending { it.stargazersCount }.toMutableList()
-            MutableLiveData<ReposData>(ReposData(list, reposData.state))
+            reposData -> transformData(reposData)
         }
     }
 
     fun searchGithubRepos(query : String){
         queryStr.value = query
+    }
+
+    private fun transformData(reposData : ReposData) : LiveData<ReposData>{
+        val list = reposData.reposList.filter { it.stargazersCount > 1000 }.sortedByDescending { it.stargazersCount }.toMutableList()
+        return MutableLiveData<ReposData>(ReposData(list, reposData.state))
     }
 }
