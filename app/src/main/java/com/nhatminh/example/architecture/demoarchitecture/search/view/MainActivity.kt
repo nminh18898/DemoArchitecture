@@ -18,6 +18,7 @@ import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitCli
 import com.nhatminh.example.architecture.demoarchitecture.search.viewmodel.SearchViewModel
 import com.nhatminh.example.architecture.demoarchitecture.search.viewmodel.SearchViewModelFactory
 import com.nhatminh.example.architecture.demoarchitecture.model.STATE
+import com.nhatminh.example.architecture.demoarchitecture.repository.RemoteDataSource
 
 
 class MainActivity : AppCompatActivity(), LifecycleOwner{
@@ -43,7 +44,8 @@ class MainActivity : AppCompatActivity(), LifecycleOwner{
 
     private fun initViewModel() {
         val githubApi = RetrofitClient.retrofit.create(GithubApi::class.java)
-        val repository = DataRepository(githubApi)
+        val remoteDataSource = RemoteDataSource(githubApi)
+        val repository = DataRepository(remoteDataSource)
         viewModel = ViewModelProviders.of(this, SearchViewModelFactory(repository)).get(SearchViewModel::class.java)
     }
 
