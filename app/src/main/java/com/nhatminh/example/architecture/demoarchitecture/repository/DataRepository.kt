@@ -1,19 +1,40 @@
 package com.nhatminh.example.architecture.demoarchitecture.repository
 
-import android.text.TextUtils
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nhatminh.example.architecture.demoarchitecture.model.ReposData
 import com.nhatminh.example.architecture.demoarchitecture.model.STATE
-import com.nhatminh.example.architecture.demoarchitecture.model.SearchResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class DataRepository(private val remoteDataSource: RemoteDataSource) {
+class DataRepository(private val remoteDataSource: RemoteDataSource, private val localDataSource: LocalDataSource) {
 
     fun searchRepos(query: String) : MutableLiveData<ReposData> {
-        return remoteDataSource.searchRepos(query)
+
+        val cached = getDataFromCached(query)
+
+        if(cached != null){
+            return cached
+        }
+
+        val data = remoteDataSource.searchRepos(query)
+
+        localDataSource.putMemCache(query, data)
+
+        return data
     }
+
+    private fun getDataFromCached(query: String) : MutableLiveData<ReposData>?{
+        val cachedData = localDataSource.getMemCache(query)
+
+        if(cachedData != null){
+            if(cachedData.value?.state != STATE.SUCCESS){
+                localDataSource.removeMemCache(query)
+                return null
+            }
+
+            return cachedData
+        }
+
+        return null
+    }
+
 
 }

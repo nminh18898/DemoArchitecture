@@ -10,15 +10,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nhatminh.example.architecture.demoarchitecture.R
 import com.nhatminh.example.architecture.demoarchitecture.databinding.ActivityMainBinding
-import com.nhatminh.example.architecture.demoarchitecture.model.GithubRepos
 import com.nhatminh.example.architecture.demoarchitecture.model.ReposData
-import com.nhatminh.example.architecture.demoarchitecture.repository.DataRepository
-import com.nhatminh.example.architecture.demoarchitecture.repository.GithubApi
-import com.nhatminh.example.architecture.demoarchitecture.repository.RetrofitClient
+import com.nhatminh.example.architecture.demoarchitecture.model.STATE
+import com.nhatminh.example.architecture.demoarchitecture.repository.*
 import com.nhatminh.example.architecture.demoarchitecture.search.viewmodel.SearchViewModel
 import com.nhatminh.example.architecture.demoarchitecture.search.viewmodel.SearchViewModelFactory
-import com.nhatminh.example.architecture.demoarchitecture.model.STATE
-import com.nhatminh.example.architecture.demoarchitecture.repository.RemoteDataSource
 
 
 class MainActivity : AppCompatActivity(), LifecycleOwner{
@@ -45,7 +41,8 @@ class MainActivity : AppCompatActivity(), LifecycleOwner{
     private fun initViewModel() {
         val githubApi = RetrofitClient.retrofit.create(GithubApi::class.java)
         val remoteDataSource = RemoteDataSource(githubApi)
-        val repository = DataRepository(remoteDataSource)
+        val localDataSource = LocalDataSource()
+        val repository = DataRepository(remoteDataSource, localDataSource)
         viewModel = ViewModelProviders.of(this, SearchViewModelFactory(repository)).get(SearchViewModel::class.java)
     }
 
