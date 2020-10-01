@@ -12,28 +12,28 @@ import retrofit2.Response
 
 class DataRepository(val githubApi: GithubApi) {
 
-    private var _reposData: MutableLiveData<ReposData> = MutableLiveData(ReposData())
-    val reposData : LiveData<ReposData>
-        get() = _reposData
+    fun searchRepos(query: String) : MutableLiveData<ReposData> {
+        val reposData = MutableLiveData(ReposData())
 
-    fun searchRepos(query: String) {
         if (!validateQuery(query)) {
-           handleInvalidQuery()
+            handleInvalidQuery(reposData)
         } else {
 
-            handleLoadingState()
+            handleLoadingState(reposData)
 
             githubApi.searchRepos(query).enqueue(object : Callback<SearchResponse> {
                 override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
-                    handleResponse(response)
+                    handleResponse(response, reposData)
                 }
 
                 override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                    handleFailure(t)
+                    handleFailure(t, reposData)
                 }
 
             })
         }
+
+        return reposData
     }
 
     private fun validateQuery(query: String): Boolean {
@@ -44,30 +44,30 @@ class DataRepository(val githubApi: GithubApi) {
         return true
     }
 
-    private fun handleInvalidQuery(){
-        _reposData.value = ReposData(ArrayList(), STATE.ERROR_INVALID_QUERY)
+    private fun handleInvalidQuery(reposData : MutableLiveData<ReposData>){
+        reposData.value = ReposData(ArrayList(), STATE.ERROR_INVALID_QUERY)
     }
 
-    private fun handleLoadingState(){
-        _reposData.value = ReposData(ArrayList(), STATE.LOADING)
+    private fun handleLoadingState(reposData : MutableLiveData<ReposData>){
+        reposData.value = ReposData(ArrayList(), STATE.LOADING)
     }
 
-    private fun handleResponse(response: Response<SearchResponse>) {
+    private fun handleResponse(response: Response<SearchResponse>, reposData : MutableLiveData<ReposData>) {
         if (response.isSuccessful) {
             val searchResponse = response.body()
 
             if (searchResponse != null) {
-                _reposData.value = ReposData(searchResponse.searchResults, STATE.SUCCESS)
+                reposData.value = ReposData(searchResponse.searchResults, STATE.SUCCESS)
             } else {
-                _reposData.value = ReposData(ArrayList(), STATE.ERROR_FAILED_RESPONSE)
+                reposData.value = ReposData(ArrayList(), STATE.ERROR_FAILED_RESPONSE)
             }
         } else {
-            _reposData.value = ReposData(ArrayList(), STATE.ERROR_UNKNOWN)
+            reposData.value = ReposData(ArrayList(), STATE.ERROR_UNKNOWN)
         }
     }
 
-    private fun handleFailure(t: Throwable) {
-        _reposData.value = ReposData(ArrayList(), STATE.ERROR_NETWORK)
+    private fun handleFailure(t: Throwable, reposData : MutableLiveData<ReposData>) {
+        reposData.value = ReposData(ArrayList(), STATE.ERROR_NETWORK)
     }
 
 }

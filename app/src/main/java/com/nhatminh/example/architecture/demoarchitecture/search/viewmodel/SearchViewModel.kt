@@ -10,13 +10,13 @@ import com.nhatminh.example.architecture.demoarchitecture.repository.DataReposit
 
 class SearchViewModel (private val repository: DataRepository) : ViewModel() {
 
-    var reposData : LiveData<ReposData> = MutableLiveData((ReposData()))
+    private val queryStr = MutableLiveData<String>()
 
-    init {
-        reposData = repository.reposData
+    var reposData : LiveData<ReposData> = Transformations.switchMap(queryStr){
+        query -> repository.searchRepos(query)
     }
 
     fun searchGithubRepos(query : String){
-        repository.searchRepos(query)
+        queryStr.value = query
     }
 }
