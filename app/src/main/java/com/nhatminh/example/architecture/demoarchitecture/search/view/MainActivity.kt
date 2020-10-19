@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nhatminh.example.architecture.demoarchitecture.R
 import com.nhatminh.example.architecture.demoarchitecture.databinding.ActivityMainBinding
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner{
         val remoteDataSource = RemoteDataSource(githubApi)
         val localDataSource = LocalDataSource()
         val repository = DataRepository(remoteDataSource, localDataSource)
-        viewModel = ViewModelProviders.of(this, SearchViewModelFactory(repository)).get(SearchViewModel::class.java)
+        viewModel = ViewModelProvider(this, SearchViewModelFactory(repository)).get(SearchViewModel::class.java)
     }
 
     private fun setupRecyclerViewAndAdapter() {
