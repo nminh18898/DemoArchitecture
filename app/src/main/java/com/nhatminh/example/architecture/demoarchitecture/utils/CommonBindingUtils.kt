@@ -7,6 +7,11 @@ class CommonBindingUtils {
 
     companion object{
 
+        /**
+         * set visibility of view base on boolean
+         * params view: view to set visibility
+         * params isHidden: true mean GONE, false mean VISIBLE
+         */
         @BindingAdapter("hidden")
         @JvmStatic
         fun bindVisibility(view : View, isHidden : Boolean){
